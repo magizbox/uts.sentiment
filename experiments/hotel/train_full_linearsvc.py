@@ -12,7 +12,7 @@ X_dev, y_dev = load_dataset(data_dev)
 X = X_train + X_dev
 y = y_train + y_dev
 
-model = TfidfModel("Count Bigram", CountVectorizer(ngram_range=(1, 2)))
+model = TfidfModel("Count Bigram", CountVectorizer(ngram_range=(1, 2), max_features=7000))
 model.load_data(X, y)
 model.fit_transform()
 model.train()

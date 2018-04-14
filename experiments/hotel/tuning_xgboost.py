@@ -1,5 +1,5 @@
 from os.path import dirname, join
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 from load_data import load_dataset
 from model import XGboostModel
 

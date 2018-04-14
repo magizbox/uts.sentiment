@@ -79,7 +79,7 @@ class TfidfModel(Model):
         with open(log_file, "w") as f:
             f.write("")
 
-    def export(self, folder="exported"):
+    def export(self, folder=None):
         joblib.dump(self.transformer,
                     join(folder, "count.transformer.bin"))
         joblib.dump(self.y_transformer,
@@ -136,7 +136,7 @@ class LogisticRegressionModel(Model):
         with open(log_file, "w") as f:
             f.write("")
 
-    def export(self, folder="exported"):
+    def export(self, folder=None):
         joblib.dump(self.transformer,
                     join(folder, "count.transformer.bin"))
         joblib.dump(self.y_transformer,
@@ -193,7 +193,7 @@ class XGboostModel(Model):
         with open(log_file, "w") as f:
             f.write("")
 
-    def export(self, folder="exported"):
+    def export(self, folder=None):
         joblib.dump(self.transformer,
                     join(folder, "count.transformer.bin"))
         joblib.dump(self.y_transformer,
@@ -250,7 +250,7 @@ class SVCModel(Model):
         with open(log_file, "w") as f:
             f.write("")
 
-    def export(self, folder="exported"):
+    def export(self, folder=None):
         joblib.dump(self.transformer,
                     join(folder, "tfidf.transformer.bin"))
         joblib.dump(self.y_transformer,
@@ -308,7 +308,7 @@ class GaussianModel(Model):
         with open(log_file, "w") as f:
             f.write("")
 
-    def export(self, folder="exported"):
+    def export(self, folder=None):
         joblib.dump(self.transformer,
                     join(folder, "count.transformer.bin"))
         joblib.dump(self.y_transformer,

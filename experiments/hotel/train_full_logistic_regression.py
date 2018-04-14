@@ -12,7 +12,7 @@ X_dev, y_dev = load_dataset(data_dev)
 X = X_train + X_dev
 y = y_train + y_dev
 
-model = LogisticRegressionModel("Count Trigram", CountVectorizer(ngram_range=(1, 3), max_features=700))
+model = LogisticRegressionModel("Count Trigram", CountVectorizer(ngram_range=(1, 3), max_features=7000))
 model.load_data(X, y)
 model.fit_transform()
 model.train()
