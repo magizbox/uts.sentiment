@@ -1,5 +1,5 @@
 from os.path import dirname, join
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 from load_data import load_dataset
 from model import XGboostModel
 
@@ -34,5 +34,4 @@ for model in models:
     model.fit_transform()
     model.train()
     model.evaluate(X_dev, y_dev)
-    # model.export()
     print(datetime.now() - start)
