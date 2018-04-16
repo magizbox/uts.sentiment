@@ -46,27 +46,25 @@ sentiment/
 **Bước 1**: Xử lí dữ liệu  
 
 - Dữ liệu gốc đặt tại thư mục `raw` gồm bộ dữ liệu khách sạn và nhà hàng, trong đó dữ liệu `train` và `dev` gồm nhận xét và nhãn tương ứng, ví dụ:
-```
-Rộng rãi KS mới nhưng rất vắng. Các dịch vụ chất lượng chưa cao và thiếu.
-{HOTEL#DESIGN&FEATURES, positive}, {HOTEL#GENERAL, negative}
-```
-dữ liệu `test` chỉ bao gồm các nhận xét.
+   ```
+    Rộng rãi KS mới nhưng rất vắng. Các dịch vụ chất lượng chưa cao và thiếu.
+    {HOTEL#DESIGN&FEATURES, positive}, {HOTEL#GENERAL, negative}
+   ```
+   dữ liệu `test` chỉ bao gồm các nhận xét.
 
-Chạy file `preprocess.py` để xử lí dữ liệu và đưa vào corpus.
-
-- Quá trình xử lí dữ liệu gồm các bước:
+- **Chạy file `preprocess.py`** để xử lí dữ liệu và đưa vào corpus. Quá trình xử lí dữ liệu gồm các bước:
    
    - Gộp 2 nhãn aspect và polarity, ngăn cách chúng bởi dấu `#`
   , ví dụ: `{HOTEL#DESIGN&FEATURES, positive}` --> `HOTEL#DESIGN&FEATURES#POSITIVE`
   - Ghi vào file excel nội dung gồm các nhận xét và nhãn tương ứng của nhận xét đó dưới dạng confusion matrix.
- - Sau khi xử lí dữ liệu, chạy file `eda.py`, module có nhiệm vụ mô tả về các cặp aspect + polarity. Kết quả của quá trình này thu được các hình ảnh lưu tại thư mục `eda`.
+ - Sau quá trình xử lí dữ liệu, **chạy file `eda.py`**, module có nhiệm vụ mô tả về các cặp aspect + polarity. Kết quả của quá trình này thu được các hình ảnh lưu tại thư mục `eda`.
 
 **Bước 2**: Huấn luyện dữ liệu
 
 Chia làm 2 quá trình:
-- Quá trình 1: **Chạy các file có tiền tố `turning`**: `turning_svc.py`, `turning_linearsvc`, ... nhằm huấn luyện dữ liệu với nhiều thử nghiệm: transfomer kết hợp estimator. Kết qủa F1 của các thử nghiệm lưu tại thư mục `logs`. Dữ liệu sử dụng là kết hợp của 2 file `train.txt` và `dev.txt`. 
+- Quá trình 1: **Chạy các file có tiền tố `turning`**: `turning_svc.py`, `turning_linearsvc`, ... nhằm huấn luyện dữ liệu với nhiều thử nghiệm (transfomer kết hợp estimator). Kết qủa F1 của các thử nghiệm lưu tại thư mục `logs`. Dữ liệu sử dụng là tại file `train.xlsx` hoặc kết hợp của 2 file `train.xlsx` và `dev.xlsx`. 
 
-- Quá trình 2: Tìm kiếm các kết qủa F1 cao nhất từ quá trình 1, trích rút giá trị transfomer + estimator. Tiến hành huấn luyện lại dữ liệu bằng cách **chạy các file có tiền tố `train`**, các file `train` này có nhiệm vụ huấn luyện dữ liệu với transfomer + estimator nhận được, kết thúc quá trình huấn luyện, trích xuất các file `.bin` lưu trữ tại các thư mục trong `exported`. Tiến hành huấn luyện với dữ liệu trong `train.xlsx` và dữ liệu đầy đủ (kết hợp dữ liệu `train.xlsx` + `dev.xlsx`)
+- Quá trình 2: Tìm kiếm các kết qủa F1 cao nhất từ quá trình 1, trích rút giá trị transfomer + estimator. Tiến hành huấn luyện lại dữ liệu bằng cách **chạy các file có tiền tố `train`**, các file `train` này có nhiệm vụ huấn luyện dữ liệu với transfomer + estimator nhận được, kết thúc quá trình huấn luyện nhận được các giá trị F1 đồng thời **trích xuất** các file `.bin` lưu trữ tại các thư mục trong `exported`. Tiến hành huấn luyện với dữ liệu trong `train.xlsx` hoặc dữ liệu đầy đủ (kết hợp dữ liệu `train.xlsx` + `dev.xlsx`)
 
 **Bước 3**: Gán nhãn dữ liệu
 
