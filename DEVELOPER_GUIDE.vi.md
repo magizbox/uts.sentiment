@@ -1,4 +1,4 @@
-# [VLSP 2018 - Aspect Based Sentiment Analysis](http://vlsp.org.vn/vlsp2018/eval/sa#data)
+# [VLSP 2018 - Aspect Based Sentiment Analysis](http://vlsp.org.vn/vlsp2018/eval/sa)
 
 ## Cấu trúc
 
