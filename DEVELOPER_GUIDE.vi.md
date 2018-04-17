@@ -38,6 +38,7 @@ $ git clone https://github.com/undertheseanlp/sentiment
 # create environment
 $ cd sentiment
 $ conda create -n sentiment python=3.5
+$ source activate sentiment
 $ pip install -r requirements.txt
 ```
 
