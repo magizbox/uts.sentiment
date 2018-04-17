@@ -99,3 +99,4 @@ ENV/
 /experiment/lab/
 *.bin
 *.json
+/.gitignore
