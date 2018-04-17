@@ -7,8 +7,8 @@ sentiment/
   ├─ data/                                  <!-- chứa dữ liệu trong quá trình huấn luyện và đánh giá mô hình 
   |   └─── vlsp2018/                        <!-- dữ liệu từ vlsp 2018
   |         ├── corpus/   
-  |         │   ├── hotel                   <!-- dữ liệu khách sạn huấn luyện và đánh giá mô hình
-  |         │   └── restaurant              
+  |         │   ├── hotel                   <!-- dữ liệu khách sạn cho huấn luyện và đánh giá mô hình
+  |         │   └── restaurant               <!-- dữ liệu nhà hàng
   |         ├── raw/                        
   |         │   ├── hotel
   |         │   └── restaurant 
