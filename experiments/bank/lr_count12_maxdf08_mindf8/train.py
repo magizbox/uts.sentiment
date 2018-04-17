@@ -9,7 +9,7 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from load_data import load_dataset
 
 if __name__ == '__main__':
-    data_file = join(dirname(dirname(dirname(dirname(__file__)))), "data", "fb_bank_sentiments", "corpus", "train.xlsx")
+    data_file = join(dirname(dirname(dirname(dirname(__file__)))), "data", "fb_bank", "corpus", "train.xlsx")
     X, y = load_dataset(data_file)
 
     flow = Flow()

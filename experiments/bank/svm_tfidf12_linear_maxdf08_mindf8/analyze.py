@@ -6,7 +6,7 @@ from languageflow.log.tfidf import TfidfLogger
 from load_data import load_dataset
 from model import sentiment
 
-data_file = join(dirname(dirname(dirname(dirname(__file__)))), "data", "fb_bank_sentiments", "corpus", "test.xlsx")
+data_file = join(dirname(dirname(dirname(dirname(__file__)))), "data", "fb_bank", "corpus", "test.xlsx")
 
 X_test, y_test = load_dataset(data_file)
 y_test = [tuple(item) for item in y_test]
