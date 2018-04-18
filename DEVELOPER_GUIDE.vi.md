@@ -10,24 +10,19 @@
 	* [Tính năng](#features)
 	* [Hướng dẫn sử dụng](#usage)
 	* [Cấu trúc thư mục](#folder-structure)
-	* [Customization](#customization)
-		* [Data Loader](#data-loader)
-		* [Trainer](#trainer)
-		* [Model](#model)
-		* [Loss & Metrics](#loss-metrics)
-			* [Multiple metrics](#multiple-metrics)
-		* [Additional logging](#additional-logging)
-		* [Validation data](#validation-data)
-		* [Checkpoint naming](#checkpoint-naming)
-	* [Contributing](#contributing)
-	* [TODOs](#todos)
-	* [Acknowledgments](#acknowledgments)
+	* [Chi tiết về dự án](#customization)
+		* [Dữ liệu](#data)
+		* [Huấn luyện mô hình](#trainer)
+		* [Mô hình](#model)
+		* [Chỉ số đánh giá](#evaluate)
+		* [Ghi lại log](#logging)
+		* [Áp dụng mô hình](#predict)
 
 <!-- /code_chunk_output -->
 
 ## Giới thiệu
 
-Dự án chứa các thí nghiệm trong các vấn đề phân tích cảm xúc câu với tiếng Việt. Đây là một phần của dự án [underthesea](https://github.com/magizbox/underthesea).
+Dự án chứa các thử nghiệm trong các vấn đề phân tích cảm xúc câu với tiếng Việt. Đây là một phần của dự án [underthesea](https://github.com/magizbox/underthesea).
 
 
 ## Cài đặt môi trường
@@ -54,8 +49,8 @@ $ pip install -r requirements.txt
   python file_name.py
   ```
 - Tiến hành huấn luyện mô hình. Tương tự, chạy các file có tiền tố  `train`.
-- Tiếp theo kiểm tra hoạt động của mô hình bằng cách chạy file `test_model.py`
-- Từ các mô hình đã trích xuất, tiến hành áp dụng nó với dữ liệu cần gán nhãn. Chạy các file có tiền tố  `make_result`, kết qủa thu được là các file text đã chứa nhận xét được gán nhãn.
+- Tiếp theo, kiểm tra hoạt động của mô hình bằng cách chạy file `test_model.py`
+- Từ các mô hình đã trích xuất, tiến hành áp dụng nó với dữ liệu cần gán nhãn. Chạy các file có tiền tố  `make_result`, kết quả thu được là các file text đã chứa nhận xét được gán nhãn.
 
 ## Cấu trúc thư mục
 ```
@@ -118,116 +113,61 @@ sentiment/
             └── turning.py  
 ```
 
-## Customization
-### Data Loader
-* **Writing your own data loader**
-  1. **Inherit ```BaseDataLoader```**
+## Chi tiết về dự án
+#### Dữ liệu
+* **Chuẩn bị dữ liệu**
+  1. **Dữ liệu gốc ```raw```**
+     * Chứa bộ dữ liệu huấn luyện và kiểm tra.
+     * Gồm các chủ đề khách sạn, nhà hàng, ngân hàng.
+     * Dữ liệu là các nhận xét và nhãn tương ứng (khía cạnh#cảm xúc).
 
-     ```BaseDataLoader``` handles:
-     * Generating next batch
-     * Data shuffling
-     * Generating validation data loader ```BaseDataLoader.split_validation()```
+  2. **Dữ liệu`corpus`**
 
-  2. **Implementing abstract methods**
+     Để tạo bộ dữ liệu `corpus` thực hiện module `preprocess`:
+     * ```convert_to_corpus()```: biến đổi dữ liệu gốc gồm nhận xét và nhãn tương ứng của nhận xét đó dưới dạng confusion matrix, đồng thời lưu lại thành định dạng excel.
+     * ```transform```: ghép 2 nhãn aspect và polarity từ nhãn đã gán thành dạng aspect#polarity 
 
-     There are some abstract methods you need to implement before using the methods in ```BaseDataLoader``` 
-     * ```_pack_data()```: pack data members into a list of tuples
-     * ```_unpack_data```: unpack packed data
-     * ```_update_data```: updata data members
-     * ```_n_samples```: total number of samples
+* **Phân tích thăm dò**
 
-* **DataLoader Usage**
-
-  ```BaseDataLoader``` is an iterator, to iterate through batches:
+  ```analyze``` tiến hành tính tổng các bộ dữ liệu `train`, `dev`, `test` và phân phối các nhãn trong dữ liệu đồng thời lưu hình ảnh tại thư mục `eda`:
   ```python
-  for batch_idx, (x_batch, y_batch) in data_loader:
-      pass
+  	df = pd.read_excel(path, encoding='sys.getfilesystemencoding()')
+  	print("\t- size:", df.shape)
+    rcParams['figure.figsize'] = 30, 15
+    df.drop("text", axis=1).sum().plot.barh()
   ```
-* **Example**
 
-  Please refer to ```data_loader/data_loaders.py``` for an MNIST example
+#### Huấn luyện mô hình
+  1. **Thực hiện nhiều thử nghiệm với ```turing```**
+   * Lấy dữ liệu từ corpus.
+   * Biến đổi dữ liệu với các đặc trưng `TfidfVectorizer` và `CountVectorizer`.
+   * Huấn luyện mô hình với dữ liệu đã biến đổi bằng hàm `train`.
+   * Kiểm tra mô hình, trích xuất chỉ số `F1` và ghi ra log lưu tại thư mục `logs`.
 
-### Trainer
-* **Writing your own trainer**
-  1. **Inherit ```BaseTrainer```**
+  2. **Trích xuất mô hình**
 
-     ```BaseTrainer``` handles:
-     * Training process logging
-     * Checkpoint saving
-     * Checkpoint resuming
-     * Reconfigurable monitored value for saving current best 
-       - Controlled by the arguments ```monitor``` and ```monitor_mode```, if ```monitor_mode == 'min'``` then the trainer will save a checkpoint ```model_best.pth.tar``` when ```monitor``` is a current minimum
+     Tìm kiếm tại thư mục `logs` kết quả tốt nhất ứng với `estimator` và `features`. Thực hiện huấn luyện lại mô hình với các bước trên, sau đó trích xuất mô hình bằng hàm `export`
 
-  2. **Implementing abstract methods**
+#### Mô hình
 
-     You need to implement ```_train_epoch()``` for your training process, if you need validation then you can implement ```_valid_epoch()``` as in ```trainer/trainer.py```
+Chứa các interface trong việc huấn luyện mô hình:
+* ```get_name```: Lấy tên feature và estimator.
+* ```load_data```: Lấy dữ liệu.
+* ```fit_transform```: Biến đổi dữ liệu với các feature.
+* ```train```: Huấn luyện mô hình.
+* ```evaluate```: Đánh giá mô hình.
 
-* **Example**
+ Các thử nghiệm trong mô hình gồm: SVC, LinearSVC, Xgboost, Linear Regression, Naive Bayes kết hợp các đăc trưng `TfidfVectorizer` và `CountVectorizer` với các chỉ số `ngrams`, `max_features`.
 
-  Please refer to ```trainer/trainer.py```
+#### Chỉ số đánh giá
+Đánh giá mô hình với chỉ số f1 bằng hàm `multilabel_f1_score` trong file `score.py`.
 
-### Model
-* **Writing your own model**
-  1. **Inherit ```BaseModel```**
+#### Ghi lại log
+Trong quá trình thử nghiệm, việc ghi lại kết quả f1 giúp tìm được thử nghiệm có kết quả tốt nhất, từ đó huấn luyện lại và trích xuất mô hình.
 
-     ```BaseModel``` handles:
-     * Inherited from ```torch.nn.Module```
-     * ```summary()```: Model summary
-
-  2. **Implementing abstract methods**
-
-     Implement the foward pass method ```forward()```
-     
-* **Example**
-
-  Please refer to ```model/model.py```
-
-### Loss & Metrics
-If you need to change the loss function or metrics, first ```import``` those function in ```train.py```, then modify:
-```python
-loss = my_loss
-metrics = [my_metric]
-```
-They will appear in the logging during training
-#### Multiple metrics
-If you have multiple metrics for your project, just add them to the ```metrics``` list:
-```python
-loss = my_loss
-metrics = [my_metric, my_metric2]
-```
-Additional metric will be shown in the logging
-### Additional logging
-If you have additional information to be logged, in ```_train_epoch()``` of your trainer class, merge them with ```log``` as shown below before returning:
-```python
-additional_log = {"gradient_norm": g, "sensitivity": s}
-log = {**log, **additional_log}
-return log
-```
-### Validation data
-If you need to split validation data from a data loader, call ```BaseDataLoader.split_validation(validation_split)```, it will return a validation data loader, with the number of samples according to the specified ratio
-**Note**: the ```split_validation()``` method will modify the original data loader
-### Checkpoint naming
-You can specify the name of the training session in ```train.py```
-```python
-training_name = type(model).__name__
-```
-Then the checkpoints will be saved in ```saved/training_name```
-
-## Contributing
-Feel free to contribute any kind of function or enhancement, here the coding style follows PEP8
-
-## TODOs
-- [ ] Multi-GPU support
-- [ ] `TensorboardX` support
-- [ ] Support iteration-based training (instead of epoch)
-- [ ] Load settings from `config` files
-- [ ] Configurable logging layout
-- [ ] Configurable checkpoint naming
-- [ ] Options to save logs to file
-- [ ] More clear trainer structure
-
-## License
-This project is licensed under the MIT License. See  LICENSE for more details
-
-## Acknowledgments
-This project is inspired by the project [Tensorflow-Project-Template](https://github.com/MrGemy95/Tensorflow-Project-Template) by [Mahmoud Gemy](https://github.com/MrGemy95)
+#### Áp dụng mô hình
+Trong phạm vi project, chúng tôi tiến hành áp dụng mô hình cho việc gán nhãn dữ liệu cho SA task VLSP 2018. Quá trình gán nhãn gồm các bước:
+   * Lấy dữ liệu từ corpus.
+   * Gán nhãn dữ liệu là các câu nhận xét bằng hàm `sentiment`.
+   * Biến đổi lại dữ liệu từ dạng tuple(aspect#polarity) về {aspect, polarity}.
+   * Kết quả của quá trình lưu tại thư mục `result`.
