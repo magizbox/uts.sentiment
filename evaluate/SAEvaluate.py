@@ -106,43 +106,41 @@ def evaluate(gold, answer):
                     gid = all_aspects.index(aspect)
                     ans_asp_count[gid] = ans_asp_count[gid] + 1
                     if not check_duplicate_asp(aspect, aasp):
-
-                        if gval[j] != aval[id]:
+                        if gval[j] == aval[id]:
                             ans_value_count[gid] = ans_value_count[gid] + 1
 
     print("Evaluation Result >> File:" + answer + "<> [" + gold + "]")
-    print("%30s" % " ")
+    # print("%30s" % " ")
     for i in range(len(all_aspects)):
         print("\t%-s" % "asp#" + str(i + 1), sep=' ', end='', flush=True)
     print()
 
-    print("%30s" % "Gold count")
+    print("%30s" % "Gold count", sep=' ', end='', flush=True)
     for i in range(len(all_aspects)):
         print("\t%-d" % gold_asp_count[i], sep=' ', end='', flush=True)
     print()
 
-    print("%30s" % "ANSWER count")
+    print("%30s" % "ANSWER count", sep=' ', end='', flush=True)
     for i in range(len(all_aspects)):
         print("\t%d" % ans_all_asp_count[i], sep=' ', end='', flush=True)
-    print()
-    print("%30s" % "Correct ANSWER: aspect")
+    print("\n")
+    print("%30s" % "Correct ANSWER: aspect", sep=' ', end='', flush=True)
     for i in range(len(all_aspects)):
         print("\t%d" % ans_asp_count[i], sep=' ', end='', flush=True)
     print()
-
-    print("%30s" % "Precision: aspect")
+    print("%30s" % "Precision: aspect", sep=' ', end='', flush=True)
     for i in range(len(all_aspects)):
         if ans_all_asp_count[i] > 0:
             p = ans_asp_count[i] / ans_all_asp_count[i]
         print("\t{:.2f}".format(p), sep=' ', end='', flush=True)
-
-    print("%30s" % "Recall: aspect")
+    print()
+    print("%30s" % "Recall: aspect", sep=' ', end='', flush=True)
     for i in range(len(all_aspects)):
         if gold_asp_count[i] > 0:
             r = ans_asp_count[i] / gold_asp_count[i]
         print("\t{:.2f}".format(r), sep=' ', end='', flush=True)
-
-    print("%30s" % "F1 score: aspect")
+    print()
+    print("%30s" % "F1 score: aspect", sep=' ', end='', flush=True)
     for i in range(len(all_aspects)):
         if ans_all_asp_count[i] > 0:
             p = ans_asp_count[i] / ans_all_asp_count[i]
@@ -168,35 +166,33 @@ def evaluate(gold, answer):
     for i in range(len(ans_value_count)):
         tvalue = tvalue + ans_value_count[i]
 
-    p = 1.0 * tcans / tans
-    r = 1.0 * tcans / tgold
+    p = tcans / tans
+    r = tcans / tgold
     f1 = 2 * p * r / (p + r)
     print()
-    print("%30s" % "Over All ANSWER: aspect:----")
-    print("\tPrecision = {:.2f}".format(p))
-    print("\tRecall = {:.2f}".format(r))
-    print("\tF1 score = {:.2f}".format(f1))
-
-    print("%30s" % "Correct ANSWER: aspect,value")
+    print("%30s" % "Over All ANSWER: aspect:----", sep=' ', end='', flush=True)
+    print("\tPrecision = {:.2f}\tRecall = {:.2f}\tF1 score = {:.2f}".format(p, r, f1))
+    print()
+    print("%30s" % "Correct ANSWER: aspect,value", sep=' ', end='', flush=True)
     for i in range(len(all_aspects)):
         print("\t%d" % ans_value_count[i], sep=' ', end='', flush=True)
     print()
 
-    print("%30s" % "Precision: aspect, value")
+    print("%30s" % "Precision: aspect, value", sep=' ', end='', flush=True)
     for i in range(len(all_aspects)):
         if ans_all_asp_count[i] > 0:
             p = ans_value_count[i] / ans_all_asp_count[i]
         print("\t{:.2f}".format(p), sep=' ', end='', flush=True)
     print()
 
-    print("%30s" % "Recall: aspect, value")
+    print("%30s" % "Recall: aspect, value", sep=' ', end='', flush=True)
     for i in range(len(all_aspects)):
         if ans_all_asp_count[i] > 0:
             r = ans_value_count[i] / gold_asp_count[i]
         print("\t{:.2f}".format(r), sep=' ', end='', flush=True)
     print()
 
-    print("%30s" % "F1 score: aspect, value")
+    print("%30s" % "F1 score: aspect, value", sep=' ', end='', flush=True)
     for i in range(len(all_aspects)):
         if ans_all_asp_count[i] > 0:
             p = 1.0 * ans_value_count[i] / ans_all_asp_count[i]
@@ -211,10 +207,9 @@ def evaluate(gold, answer):
     r = 1.0 * tvalue / tgold
     f1 = 2 * p * r / (p + r)
     print()
-    print("%30s" % "Over All ANSWER: aspect, value:----")
-    print("\tPrecision = {:.2f}".format(p))
-    print("\tRecall = {:.2f}".format(r))
-    print("\tF1 score = {:.2f}".format(f1))
+    print("%30s" % "Over All ANSWER: aspect, value:----", sep=' ', end='', flush=True)
+    print("\tPrecision = {:.2f}\tRecall = {:.2f}\tF1 score = {:.2f}".format(p, r, f1))
+    print("\n")
 
     for i in range(len(all_aspects)):
         print("asp#" + str(i + 1) + ": " + all_aspects[i])
@@ -225,9 +220,9 @@ def check_duplicate_asp(asp, asp_list):
     for i in range(len(asp_list)):
         if asp_list[i] == asp:
             count += 1
-        if count > 1:
-            return True
-        return False
+    if count > 1:
+        return True
+    return False
 
 
 def evaluate_folder(gold, answer):
