@@ -368,7 +368,7 @@ Giường ngủ êm thoải mái, phòng sạch sẽ Phòng bí ko có cửa s�
 
 #93
 Vị trí tốt. Phòng mới, nhân viên dọn phòng hằng ngày nên khá sạch sẽ. Ăn sáng ok. Sẽ quay lại Happy Day vao dịp hè
-{FOOD&DRINKS#QUALITY, positive}, {HOTEL#GENERAL, positive}, {LOCATION#GENERAL, positive}, {ROOMS#CLEANLINESS, positive}, {ROOMS#DESIGN&FEATURES, positive}
+{FOOD&DRINKS#QUALITY, positive}, {HOTEL#GENERAL, positive}, {LOCATION#GENERAL, positive}, {ROOMS#CLEANLINESS, positive}
 
 #94
 Phòng rộng, tiện nghi rất tốt Các món ăn và hoa quả cần đa dạng hơn.
@@ -2212,7 +2212,7 @@ Chỗ ngồi bãi biển đẹp. Ks này tôi đã ở cách đay 2 năm và khi
 
 #554
 Nội thất rất được, phong cách phục vụ ổn. Bể bơi đẹp, cách bày trí không gian xung quanh bể rất tiện nghi, sáng tạo, tạo cảm giác thư thái Không gian hơi chật chội. Bể bơi đẹp nhưng chúng tôi nghỉ đúng dịp đang xây sửa nên bị ảnh hưởng rất lớn
-{FACILITIES#DESIGN&FEATURES, positive}
+{FACILITIES#DESIGN&FEATURES, positive}, {HOTEL#DESIGN&FEATURES, positive}
 
 #555
 Bữa sáng ngon, nhân viên phục vụ tại ks chu đáo, thân thiện. Phòng tiện nghi, sạch sẽ, nội thất tốt
@@ -2276,7 +2276,7 @@ Các bạn nhân viên rất thân thiện, mình đi gấp vào buổi sáng kh
 
 #570
 Không gian của hostel khá đẹp, phòng sạch sẽ. Giá cả hợp lý, sẽ quay lại và giới thiệu cho ng quen đến đây Mình đặt phòng B3, phòng khá sạch sẽ tuy nhiên cách âm chưa được tốt, vào buổi sáng năng chiếu thẳng vào phòng nên hơi khó chịu (nên có rèm che toàn bộ cửa).
-{HOTEL#PRICES, positive}, {ROOMS#CLEANLINESS, positive}, {ROOMS#COMFORT, positive}
+{ROOMS#CLEANLINESS, positive}, {ROOMS#COMFORT, positive}
 
 #571
 Trãi nghiệm mới lạ khi phòng ngủ là container.Có không gian sân vườn thoáng đãng , gần gủi thiên nhiên . Thích hợp với nhóm bạn , có thể mua hải sản về tự nấu nướng . Nhân viên thân thiện Phòng tắm không có chỗ máng quần áo , chỉ có chỗ máng khăn . Khách sạn gần biển mà chưa có khu vực tắm và rữa chân lại trước khi lên phòng . Lavabo bị nghẹt rút nước chậm . Không có tivi trong phòng . Nếu bạn ở chung với khách lịch sự giữ trật tự thì không sao, nhưng ở với những người bất lịch sự thì rất ồn ào khó ngủ
