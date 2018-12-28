@@ -1,7 +1,12 @@
 import os
 import sys
 import re
-from languageflow.util.file_io import read
+
+
+def read(path):
+    with open(path) as f:
+        content = f.read()
+    return content
 
 
 class SA(object):
@@ -23,7 +28,7 @@ def load_sa(file_name):
         line = line.replace("#", "#")
         line = line.strip()
         if re.match(".?#\\d+", line):
-            if sentiment != None:
+            if sentiment is not None:
                 sa.append(sentiment)
             sentiment = SA()
             sentiment.id = re.match(".?#\\d+", line).group(0)
@@ -238,5 +243,9 @@ def evaluate_folder(gold, answer):
 
 
 if __name__ == '__main__':
+    orig_stdout = sys.stdout
+    f = open('report.xlsx', 'w')
+    sys.stdout = f
     evaluate_folder('SA_Test', "SA_Evaluate")
-
+    sys.stdout = orig_stdout
+    f.close()

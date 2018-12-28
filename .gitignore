@@ -97,4 +97,3 @@ ENV/
 
 *.bin
 *.json
-/.gitignore
