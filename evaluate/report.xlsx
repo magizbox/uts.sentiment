@@ -1,21 +1,21 @@
 Lỗi gióng hàng:﻿#1 <-> #1
-Evaluation Result >> File:SA_Evaluate/restaurant.txt<> [SA_Test/3-VLSP2018-SA-Restaurant-test-eval-gold-data (8-3-2018).txt]
-	asp#1	asp#2	asp#3	asp#4	asp#5	asp#6	asp#7	asp#8	asp#9	asp#10	asp#11	asp#12
+Evaluation Result >> File:SA_Evaluate//restaurant.txt<> [SA_Test//3-VLSP2018-SA-Restaurant-test-eval-gold-data (8-3-2018).txt]
+                              	asp#1	asp#2	asp#3	asp#4	asp#5	asp#6	asp#7	asp#8	asp#9	asp#10	asp#11	asp#12
                     Gold count	223	71	76	46	179	130	403	331	457	255	73	175
-                  ANSWER count	251	13	6	15	70	17	420	157	461	168	12	117
+                  ANSWER count	190	14	8	17	55	13	389	168	461	168	2	126
 
-        Correct ANSWER: aspect	145	10	3	9	56	15	369	119	431	155	4	104
-             Precision: aspect	0.58	0.77	0.50	0.60	0.80	0.88	0.88	0.76	0.93	0.92	0.33	0.89
-                Recall: aspect	0.65	0.14	0.04	0.20	0.31	0.12	0.92	0.36	0.94	0.61	0.05	0.59
-              F1 score: aspect	0.61	0.24	0.07	0.30	0.45	0.20	0.90	0.49	0.94	0.73	0.09	0.71
-  Over All ANSWER: aspect:----	Precision = 0.83	Recall = 0.59	F1 score = 0.69
+        Correct ANSWER: aspect	116	12	5	6	48	12	346	133	428	157	1	108
+             Precision: aspect	0.61	0.86	0.63	0.35	0.87	0.92	0.89	0.79	0.93	0.93	0.50	0.86
+                Recall: aspect	0.52	0.17	0.07	0.13	0.27	0.09	0.86	0.40	0.94	0.62	0.01	0.62
+              F1 score: aspect	0.56	0.28	0.12	0.19	0.41	0.17	0.87	0.53	0.93	0.74	0.03	0.72
+  Over All ANSWER: aspect:----	Precision = 0.85	Recall = 0.57	F1 score = 0.68
 
-  Correct ANSWER: aspect,value	135	8	0	8	43	15	313	66	390	138	4	84
-      Precision: aspect, value	0.54	0.62	0.00	0.53	0.61	0.88	0.75	0.42	0.85	0.82	0.33	0.72
-         Recall: aspect, value	0.61	0.11	0.00	0.17	0.24	0.12	0.78	0.20	0.85	0.54	0.05	0.48
-       F1 score: aspect, value	0.57	0.19	0.19	0.26	0.35	0.20	0.76	0.27	0.85	0.65	0.09	0.58
+  Correct ANSWER: aspect,value	110	11	1	5	39	10	297	81	388	142	0	90
+      Precision: aspect, value	0.58	0.79	0.13	0.29	0.71	0.77	0.76	0.48	0.84	0.85	0.00	0.71
+         Recall: aspect, value	0.49	0.15	0.01	0.11	0.22	0.08	0.74	0.24	0.85	0.56	0.00	0.51
+       F1 score: aspect, value	0.53	0.26	0.02	0.16	0.33	0.14	0.75	0.32	0.85	0.67	0.00	0.60
 
-Over All ANSWER: aspect, value:----	Precision = 0.71	Recall = 0.50	F1 score = 0.58
+Over All ANSWER: aspect, value:----	Precision = 0.73	Recall = 0.49	F1 score = 0.58
 
 
 asp#1: RESTAURANT#GENERAL
@@ -31,23 +31,23 @@ asp#10: AMBIENCE#GENERAL
 asp#11: RESTAURANT#PRICES
 asp#12: SERVICE#GENERAL
 Lỗi gióng hàng:﻿#1 <-> #1
-Evaluation Result >> File:SA_Evaluate/hotel.txt<> [SA_Test/3-VLSP2018-SA-Hotel-test-eval-gold-data (8-3-2018).txt]
-	asp#1	asp#2	asp#3	asp#4	asp#5	asp#6	asp#7	asp#8	asp#9	asp#10	asp#11	asp#12	asp#13	asp#14	asp#15	asp#16	asp#17	asp#18	asp#19	asp#20	asp#21	asp#22	asp#23	asp#24	asp#25	asp#26	asp#27	asp#28	asp#29	asp#30	asp#31	asp#32	asp#33	asp#34	asp#35
+Evaluation Result >> File:SA_Evaluate//hotel.txt<> [SA_Test//3-VLSP2018-SA-Hotel-test-eval-gold-data (8-3-2018).txt]
+                              	asp#1	asp#2	asp#3	asp#4	asp#5	asp#6	asp#7	asp#8	asp#9	asp#10	asp#11	asp#12	asp#13	asp#14	asp#15	asp#16	asp#17	asp#18	asp#19	asp#20	asp#21	asp#22	asp#23	asp#24	asp#25	asp#26	asp#27	asp#28	asp#29	asp#30	asp#31	asp#32	asp#33	asp#34	asp#35
                     Gold count	46	416	200	93	221	57	198	67	68	144	32	124	10	65	85	51	13	71	151	29	94	21	68	59	8	26	129	3	13	9	5	3	3	1	1
-                  ANSWER count	2	365	167	40	193	14	112	65	9	27	24	64	1	12	56	6	9	57	104	7	74	6	2	8	0	2	108	0	1	0	3	0	0	0	0
+                  ANSWER count	9	387	176	78	211	11	138	49	39	63	21	70	0	22	60	24	8	63	112	9	78	8	8	22	0	0	111	0	3	1	1	0	0	0	0
 
-        Correct ANSWER: aspect	1	351	151	26	180	9	95	35	9	19	15	55	1	10	40	4	5	42	77	6	41	4	2	1	0	0	93	0	0	0	2	0	0	0	0
-             Precision: aspect	0.50	0.96	0.90	0.65	0.93	0.64	0.85	0.54	1.00	0.70	0.62	0.86	1.00	0.83	0.71	0.67	0.56	0.74	0.74	0.86	0.55	0.67	1.00	0.12	0.12	0.00	0.86	0.86	0.00	0.00	0.67	0.67	0.67	0.67	0.67
-                Recall: aspect	0.02	0.84	0.76	0.28	0.81	0.16	0.48	0.52	0.13	0.13	0.47	0.44	0.10	0.15	0.47	0.08	0.38	0.59	0.51	0.21	0.44	0.19	0.03	0.02	0.00	0.00	0.72	0.00	0.00	0.00	0.40	0.00	0.00	0.00	0.00
-              F1 score: aspect	0.04	0.90	0.82	0.39	0.87	0.25	0.61	0.53	0.23	0.22	0.54	0.59	0.18	0.26	0.57	0.14	0.45	0.66	0.60	0.33	0.49	0.30	0.06	0.03	0.03	0.03	0.78	0.78	0.78	0.78	0.50	0.50	0.50	0.50	0.50
-  Over All ANSWER: aspect:----	Precision = 0.83	Recall = 0.49	F1 score = 0.62
+        Correct ANSWER: aspect	7	378	157	52	199	8	121	37	37	49	17	67	0	19	44	22	5	47	98	8	51	6	7	18	0	0	102	0	1	1	1	0	0	0	0
+             Precision: aspect	0.78	0.98	0.89	0.67	0.94	0.73	0.88	0.76	0.95	0.78	0.81	0.96	0.00	0.86	0.73	0.92	0.63	0.75	0.88	0.89	0.65	0.75	0.88	0.82	0.00	0.00	0.92	0.00	0.33	1.00	1.00	0.00	0.00	0.00	0.00
+                Recall: aspect	0.15	0.91	0.79	0.56	0.90	0.14	0.61	0.55	0.54	0.34	0.53	0.54	0.00	0.29	0.52	0.43	0.38	0.66	0.65	0.28	0.54	0.29	0.10	0.31	0.00	0.00	0.79	0.00	0.08	0.11	0.20	0.00	0.00	0.00	0.00
+              F1 score: aspect	0.25	0.94	0.84	0.61	0.92	0.24	0.72	0.64	0.69	0.47	0.64	0.69	0.00	0.44	0.61	0.59	0.48	0.70	0.75	0.42	0.59	0.41	0.18	0.44	0.00	0.00	0.85	0.00	0.13	0.20	0.33	0.00	0.00	0.00	0.00
+  Over All ANSWER: aspect:----	Precision = 0.87	Recall = 0.60	F1 score = 0.71
 
-  Correct ANSWER: aspect,value	1	313	138	22	163	6	74	33	8	16	15	50	1	8	39	4	4	39	74	5	41	4	2	1	0	0	80	0	0	0	2	0	0	0	0
-      Precision: aspect, value	0.50	0.86	0.83	0.55	0.84	0.43	0.66	0.51	0.89	0.59	0.62	0.78	1.00	0.67	0.70	0.67	0.44	0.68	0.71	0.71	0.55	0.67	1.00	0.12	0.12	0.00	0.74	0.74	0.00	0.00	0.67	0.67	0.67	0.67	0.67
-         Recall: aspect, value	0.02	0.75	0.69	0.24	0.74	0.11	0.37	0.49	0.12	0.11	0.47	0.40	0.10	0.12	0.46	0.08	0.31	0.55	0.49	0.17	0.44	0.19	0.03	0.02	0.02	0.00	0.62	0.62	0.00	0.00	0.40	0.40	0.40	0.40	0.40
-       F1 score: aspect, value	0.04	0.80	0.75	0.33	0.79	0.17	0.48	0.50	0.21	0.19	0.54	0.53	0.18	0.21	0.55	0.14	0.36	0.61	0.58	0.28	0.49	0.30	0.06	0.03	0.00	0.00	0.68	0.00	0.00	0.00	0.50	0.00	0.00	0.00	0.00
+  Correct ANSWER: aspect,value	5	343	148	47	182	8	100	36	33	42	16	63	0	17	42	17	4	47	94	8	49	5	6	18	0	0	95	0	1	1	0	0	0	0	0
+      Precision: aspect, value	0.56	0.89	0.84	0.60	0.86	0.73	0.72	0.73	0.85	0.67	0.76	0.90	0.00	0.77	0.70	0.71	0.50	0.75	0.84	0.89	0.63	0.63	0.75	0.82	0.00	0.00	0.86	0.00	0.33	1.00	0.00	0.00	0.00	0.00	0.00
+         Recall: aspect, value	0.11	0.82	0.74	0.51	0.82	0.14	0.51	0.54	0.49	0.29	0.50	0.51	0.00	0.26	0.49	0.33	0.31	0.66	0.62	0.28	0.52	0.24	0.09	0.31	0.00	0.00	0.74	0.00	0.08	0.11	0.00	0.00	0.00	0.00	0.00
+       F1 score: aspect, value	0.18	0.85	0.79	0.55	0.84	0.24	0.60	0.62	0.62	0.41	0.60	0.65	0.00	0.39	0.58	0.45	0.38	0.70	0.71	0.42	0.57	0.34	0.16	0.44	0.00	0.00	0.79	0.00	0.13	0.20	0.00	0.00	0.00	0.00	0.00
 
-Over All ANSWER: aspect, value:----	Precision = 0.74	Recall = 0.44	F1 score = 0.55
+Over All ANSWER: aspect, value:----	Precision = 0.80	Recall = 0.55	F1 score = 0.65
 
 
 asp#1: ROOM_AMENITIES#CLEANLINESS

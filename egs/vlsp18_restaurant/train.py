@@ -22,6 +22,10 @@ serialization_dir = join(dirname(__file__), "snapshots")
 print("Load data...")
 X_train, y_train = load_dataset(train_path)
 X_dev, y_dev = load_dataset(dev_path)
+
+X_train = X_train + X_dev
+y_train = y_train + y_dev
+
 target_names = list(set([i[0] for i in y_train]))
 
 print("%d documents" % len(X_train))
