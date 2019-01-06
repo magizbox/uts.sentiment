@@ -38,7 +38,7 @@ class ClassifierModel:
         self.estimator = model.fit(self.X_train, self.y_train)
 
     def _create_log_file_name(self, score, model_name):
-        file_name = "logs/" + \
+        file_name = "logs_/" + \
                     "{:.4f}".format(score) + \
                     "_" + \
                     model_name + \
@@ -90,10 +90,11 @@ class XGboostModel:
         self.model.fit(self.X_train, self.y_train)
 
     def _create_log_file_name(self, score, model_name):
-        file_name = "logs/" + \
+        file_name = "logs_/" + \
                     "{:.4f}".format(score) + \
                     "_" + \
                     model_name + \
+                    self.name + \
                     ".txt"
         return file_name
 

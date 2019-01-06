@@ -6,8 +6,8 @@ from sklearn import metrics
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import MultiLabelBinarizer
-from sklearn.svm import LinearSVC
 import numpy as np
+from xgboost import XGBClassifier
 
 from load_data import load_dataset
 
@@ -22,6 +22,10 @@ serialization_dir = join(dirname(__file__), "snapshots")
 print("Load data...")
 X_train, y_train = load_dataset(train_path)
 X_dev, y_dev = load_dataset(dev_path)
+
+X_train = X_train + X_dev
+y_train = y_train + y_dev
+
 target_names = list(set([i[0] for i in y_train]))
 
 print("%d documents" % len(X_train))
@@ -29,13 +33,13 @@ print("%d categories" % len(target_names))
 
 print("\nTraining model...")
 t0 = time()
-transformer = CountVectorizer(ngram_range=(1, 3))
+transformer = CountVectorizer(ngram_range=(1, 2), max_features=4000)
 X_train = transformer.fit_transform(X_train)
 
 y_transformer = MultiLabelBinarizer()
 y_train = y_transformer.fit_transform(y_train)
 
-model = OneVsRestClassifier(LinearSVC())
+model = OneVsRestClassifier(XGBClassifier(n_iter=500, max_depth=500))
 estimator = model.fit(X_train, y_train)
 t1 = time() - t0
 print("Train time: %0.3fs" % t1)

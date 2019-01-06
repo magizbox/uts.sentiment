@@ -1,4 +1,6 @@
 from os.path import dirname, join
+from random import shuffle
+
 import pandas as pd
 import re
 
@@ -32,6 +34,7 @@ def convert_to_corpus(sentences, file_path):
             else:
                 item[label] = 0
         data.append(item)
+    shuffle(data)
     df = pd.DataFrame(data)
     columns = ["text"] + labels
     df.to_excel(file_path, index=False, columns=columns)
