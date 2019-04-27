@@ -4,3 +4,4 @@ openpyxl==2.5.12
 pandas==0.23.4
 scikit-learn==0.20.2
 xgboost==0.81
+Click==7.0
