@@ -1,6 +1,7 @@
 from tempfile import mkdtemp
 
 import joblib
+import unidecode
 from languageflow.data import CategorizedCorpus
 from languageflow.data_fetcher import DataFetcher, NLPData
 from languageflow.models.text_classifier import TextClassifier, TEXT_CLASSIFIER_ESTIMATOR
@@ -33,6 +34,17 @@ class Lowercase(BaseEstimator, TransformerMixin):
         return self
 
 
+class RemoveTone(BaseEstimator, TransformerMixin):
+    def remove_tone(self, s):
+        return unidecode.unidecode(s)
+
+    def transform(self, x):
+        return [self.remove_tone(s) for s in x]
+
+    def fit(self, x, y=None):
+        return self
+
+
 @ex.automain
 def run(estimator, features):
     corpus: CategorizedCorpus = DataFetcher.load_corpus(NLPData.AIVIVN2019_SA)
@@ -42,7 +54,11 @@ def run(estimator, features):
                 ('lower_tfidf', Pipeline([
                     ('lower', Lowercase()),
                     ('tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))])),
-                ('with_tone_char', TfidfVectorizer(ngram_range=(1, 6), norm='l2', min_df=2, analyzer='char'))
+                ('with_tone_char', TfidfVectorizer(ngram_range=(1, 6), norm='l2', min_df=2, analyzer='char')),
+                ('remove_tone', Pipeline([
+                    ('remove_tone', RemoveTone()),
+                    ('lower', Lowercase()),
+                    ('tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))]))
             ])),
             ('estimator', SVC(kernel='linear', C=0.2175, class_weight=None, verbose=True))
         ]
