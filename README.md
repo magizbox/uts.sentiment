@@ -97,6 +97,22 @@ Kết quả các thử nghiệm
 | LogisticRegression + Countvectorizer(Trigram, max_features=5000)                | 65.70    |
 | SVC + Countvectorizer(Trigram, Max Feature=700)                                 | 29.60    |
 
+## Cài đặt sacred
+
+Cài đặt python package
+
+```
+pip install sacred 
+```
+
+Cài đặt database
+
+```
+sudo docker run -p 27017:27017 mongo
+```
+
+
+
 ## Trích dẫn
 
 <i>Đang cập nhật</i>
