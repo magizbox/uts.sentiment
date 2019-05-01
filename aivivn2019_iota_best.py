@@ -45,12 +45,9 @@ class RemoveTone(BaseEstimator, TransformerMixin):
         return self
 
 
-@ex.main
+@ex.automain
 def run(estimator, features):
     corpus: CategorizedCorpus = DataFetcher.load_corpus(NLPData.AIVIVN2019_SA)
-    params = {
-        "estimator__C": 0.2
-    }
     pipeline = Pipeline(
         steps=[
             ('features', FeatureUnion([
@@ -66,7 +63,6 @@ def run(estimator, features):
             ('estimator', SVC(kernel='linear', C=0.2175, class_weight=None, verbose=True))
         ]
     )
-    pipeline.set_params(**params)
     classifier = TextClassifier(estimator=TEXT_CLASSIFIER_ESTIMATOR.PIPELINE, pipeline=pipeline)
     model_trainer = ModelTrainer(classifier, corpus)
     tmp_model_folder = mkdtemp()
@@ -82,9 +78,3 @@ def run(estimator, features):
     ex.log_scalar('dev_score', score['dev_score'])
     ex.log_scalar('test_score', score['test_score'])
     return score['test_score']
-
-
-if __name__ == '__main__':
-
-    ex.run()
-    ex.run()
