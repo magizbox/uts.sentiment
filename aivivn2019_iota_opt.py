@@ -17,9 +17,8 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.svm import SVC
 from sacred.observers import MongoObserver
 
-ex = Experiment('aivivn')
+ex = Experiment('aivivn_search_2')
 ex.observers.append(MongoObserver.create())
-
 
 
 class Lowercase(BaseEstimator, TransformerMixin):
@@ -40,17 +39,21 @@ class RemoveTone(BaseEstimator, TransformerMixin):
     def fit(self, x, y=None):
         return self
 
+
 @ex.main
-def my_run(estimator__C, features__lower_pipe__lower_tfidf__ngram_range):
+def my_run(estimator__C,
+           features__lower_pipe__tfidf__ngram_range,
+           features__with_tone_char__ngram_range,
+           features__remove_tone__tfidf__ngram_range):
     params = locals().copy()
     print(params)
-    corpus: CategorizedCorpus = DataFetcher.load_corpus(NLPData.AIVIVN2019_SA)
+    corpus: CategorizedCorpus = DataFetcher.load_corpus(NLPData.AIVIVN2019_SA_SAMPLE)
     pipeline = Pipeline(
         steps=[
             ('features', FeatureUnion([
                 ('lower_pipe', Pipeline([
                     ('lower', Lowercase()),
-                    ('lower_tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))])),
+                    ('tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))])),
                 ('with_tone_char', TfidfVectorizer(ngram_range=(1, 6), norm='l2', min_df=2, analyzer='char')),
                 ('remove_tone', Pipeline([
                     ('remove_tone', RemoveTone()),
@@ -75,7 +78,7 @@ def my_run(estimator__C, features__lower_pipe__lower_tfidf__ngram_range):
     score = model_trainer.train(tmp_model_folder, scoring=negative_f1_score)
     ex.log_scalar('dev_score', score['dev_score'])
     ex.log_scalar('test_score', score['test_score'])
-    return score['test_score']
+    return score['dev_score']
 
 
 best_score = 1.0
@@ -90,12 +93,17 @@ def objective(space):
 
 
 space = {
-    'estimator__C': hp.choice('C', np.arange(0.005, 1.0, 0.1)),
-    'features__lower_pipe__lower_tfidf__ngram_range': hp.choice('features__lower_pipe__lower_tfidf__ngram_range', [(1, 2), (1, 3), (1, 4)])
+    'estimator__C': hp.choice('C', np.arange(0.005, 1.0, 0.005)),
+    'features__lower_pipe__tfidf__ngram_range': hp.choice('features__lower_pipe__lower_tfidf__ngram_range',
+                                                                [(1, 2), (1, 3), (1, 4)]),
+    'features__with_tone_char__ngram_range': hp.choice('features__with_tone_char__ngram_range',
+                                                                [(1, 4), (1, 5), (1, 6)]),
+    'features__remove_tone__tfidf__ngram_range': hp.choice('features__remove_tone__tfidf__ngram_range',
+                                                                [(1, 2), (1, 3), (1, 4)])
 }
 start = time.time()
 trials = Trials()
-best = fmin(objective, space=space, algo=tpe.suggest, max_evals=30, trials=trials)
+best = fmin(objective, space=space, algo=tpe.suggest, max_evals=300, trials=trials)
 
 print("Hyperopt search took %.2f seconds for 200 candidates" % ((time.time() - start)))
 print(-best_score, best)
