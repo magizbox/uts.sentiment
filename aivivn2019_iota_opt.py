@@ -17,8 +17,18 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.svm import SVC
 from sacred.observers import MongoObserver
 
-ex = Experiment('aivivn_search_2')
+ex = Experiment('with_emoticons_full')
 ex.observers.append(MongoObserver.create())
+
+negative_emoticons = {':(', '☹', '❌', '👎', '👹', '💀', '🔥', '🤔', '😏', '😐', '😑', '😒', '😓', '😔', '😕', '😖',
+                      '😞', '😟', '😠', '😡', '😢', '😣', '😤', '😥', '😧', '😨', '😩', '😪', '😫', '😭', '😰', '😱',
+                      '😳', '😵', '😶', '😾', '🙁', '🙏', '🚫', '>:[', ':-(', ':(', ':-c', ':c', ':-<', ':っC', ':<',
+                      ':-[', ':[', ':{'}
+
+positive_emoticons = {'=))', 'v', ';)', '^^', '<3', '☀', '☺', '♡', '♥', '✌', '✨', '❣', '❤', '🌝', '🌷', '🌸',
+                      '🌺', '🌼', '🍓', '🎈', '🐅', '🐶', '🐾', '👉', '👌', '👍', '👏', '👻', '💃', '💄', '💋',
+                      '💌', '💎', '💐', '💓', '💕', '💖', '💗', '💙', '💚', '💛', '💜', '💞', ':-)', ':)', ':D', ':o)',
+                      ':]', ':3', ':c)', ':>', '=]', '8)'}
 
 
 class Lowercase(BaseEstimator, TransformerMixin):
@@ -40,14 +50,32 @@ class RemoveTone(BaseEstimator, TransformerMixin):
         return self
 
 
+class CountEmoticons(BaseEstimator, TransformerMixin):
+    def count_emoticon(self, s):
+        positive_count = 0
+        negative_count = 0
+        for emoticon in positive_emoticons:
+            positive_count += s.count(emoticon)
+        for emoticon in negative_emoticons:
+            negative_count += s.count(emoticon)
+        return positive_count, negative_count
+
+    def transform(self, x):
+        return [self.count_emoticon(s) for s in x]
+
+    def fit(self, x, y=None):
+        return self
+
+
 @ex.main
 def my_run(estimator__C,
            features__lower_pipe__tfidf__ngram_range,
            features__with_tone_char__ngram_range,
            features__remove_tone__tfidf__ngram_range):
     params = locals().copy()
+    start = time.time()
     print(params)
-    corpus: CategorizedCorpus = DataFetcher.load_corpus(NLPData.AIVIVN2019_SA_SAMPLE)
+    corpus: CategorizedCorpus = DataFetcher.load_corpus(NLPData.AIVIVN2019_SA)
     pipeline = Pipeline(
         steps=[
             ('features', FeatureUnion([
@@ -58,7 +86,8 @@ def my_run(estimator__C,
                 ('remove_tone', Pipeline([
                     ('remove_tone', RemoveTone()),
                     ('lower', Lowercase()),
-                    ('tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))]))
+                    ('tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))])),
+                ('emoticons', CountEmoticons())
             ])),
             ('estimator', SVC(kernel='linear', C=0.2175, class_weight=None, verbose=True))
         ]
@@ -78,6 +107,7 @@ def my_run(estimator__C,
     score = model_trainer.train(tmp_model_folder, scoring=negative_f1_score)
     ex.log_scalar('dev_score', score['dev_score'])
     ex.log_scalar('test_score', score['test_score'])
+    print(time.time() - start)
     return score['dev_score']
 
 
@@ -95,11 +125,11 @@ def objective(space):
 space = {
     'estimator__C': hp.choice('C', np.arange(0.005, 1.0, 0.005)),
     'features__lower_pipe__tfidf__ngram_range': hp.choice('features__lower_pipe__lower_tfidf__ngram_range',
-                                                                [(1, 2), (1, 3), (1, 4)]),
+                                                          [(1, 2), (1, 3), (1, 4)]),
     'features__with_tone_char__ngram_range': hp.choice('features__with_tone_char__ngram_range',
-                                                                [(1, 4), (1, 5), (1, 6)]),
+                                                       [(1, 4), (1, 5), (1, 6)]),
     'features__remove_tone__tfidf__ngram_range': hp.choice('features__remove_tone__tfidf__ngram_range',
-                                                                [(1, 2), (1, 3), (1, 4)])
+                                                           [(1, 2), (1, 3), (1, 4)])
 }
 start = time.time()
 trials = Trials()
