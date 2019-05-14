@@ -17,7 +17,7 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.svm import SVC
 from sacred.observers import MongoObserver
 
-ex = Experiment('with_emoticons_full')
+ex = Experiment('VLSP2016 Experiment')
 ex.observers.append(MongoObserver.create())
 
 negative_emoticons = {':(', '☹', '❌', '👎', '👹', '💀', '🔥', '🤔', '😏', '😐', '😑', '😒', '😓', '😔', '😕', '😖',
@@ -98,7 +98,7 @@ def my_run(estimator__C,
     tmp_model_folder = mkdtemp()
 
     def negative_f1_score(y_true, y_pred):
-        score_class_0, score_class_1 = f1_score(y_true, y_pred, average=None)
+        score_class_0, score_class_1, score_class_2 = f1_score(y_true, y_pred, average=None)
         return score_class_1
 
     def macro_f1_score(y_true, y_pred):
