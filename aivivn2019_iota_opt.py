@@ -16,8 +16,9 @@ from sklearn.metrics import f1_score
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.svm import SVC
 from sacred.observers import MongoObserver
+from underthesea.word_tokenize.regex_tokenize import tokenize
 
-ex = Experiment('with_emoticons_full')
+ex = Experiment("with_tokenize_full")
 ex.observers.append(MongoObserver.create())
 
 negative_emoticons = {':(', '☹', '❌', '👎', '👹', '💀', '🔥', '🤔', '😏', '😐', '😑', '😒', '😓', '😔', '😕', '😖',
@@ -67,6 +68,14 @@ class CountEmoticons(BaseEstimator, TransformerMixin):
         return self
 
 
+class Tokenize(BaseEstimator, TransformerMixin):
+    def transform(self, x):
+        return [tokenize(s, format='text') for s in x]
+
+    def fit(self, x, y=None):
+        return self
+
+
 @ex.main
 def my_run(estimator__C,
            features__lower_pipe__tfidf__ngram_range,
@@ -80,10 +89,12 @@ def my_run(estimator__C,
         steps=[
             ('features', FeatureUnion([
                 ('lower_pipe', Pipeline([
+                    ('tokenize', Tokenize()),
                     ('lower', Lowercase()),
                     ('tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))])),
                 ('with_tone_char', TfidfVectorizer(ngram_range=(1, 6), norm='l2', min_df=2, analyzer='char')),
                 ('remove_tone', Pipeline([
+                    ('tokenize', Tokenize()),
                     ('remove_tone', RemoveTone()),
                     ('lower', Lowercase()),
                     ('tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))])),
