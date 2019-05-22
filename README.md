@@ -8,8 +8,11 @@ Dự án nghiên cứu về bài toán *nhận diện cảm xúc tiếng Việt*
 
 **Nhóm tác giả** 
 
-* Vũ Anh ([anhv.ict91@gmail.com](anhv.ict91@gmail.com))
-* Bùi Nhật Anh ([buinhatanh1208@gmail.com](buinhatanh1208@gmail.com))
+* Vu Anh <<anhv.ict91@gmail.com>>
+* Pham Hong Quang <<quangphampm@gmail.com>>
+* Pham Thi Anh Suong <<phamsuong1551997@gmail.com>>
+
+[Danh sách những người đóng góp](AUTHORS.md) 
 
 **Tham gia đóng góp**
 
