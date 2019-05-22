@@ -18,4 +18,4 @@ Thanks
 
 Thanks to all the wonderful folks who have contributed to schedule over the years
 
-* Bui Nhat Anh <buinhatanh1208@gmail.com>
+* Bui Nhat Anh <<buinhatanh1208@gmail.com>>
