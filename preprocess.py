@@ -1,3 +1,5 @@
+import os
+import shutil
 from enum import Enum
 from pathlib import Path
 import re
@@ -92,9 +94,68 @@ def preprocess_vlsp2016_sa(raw_data_folder, normalized_data_folder):
         f.write(content + "\n")
 
 
+def preprocess_vlsp2018_sa():
+    corpus_folder = Path("tmp/VLSP2018_SA/")
+    shutil.rmtree(corpus_folder / "normalized")
+    os.mkdir(corpus_folder / "normalized")
+    os.mkdir(corpus_folder / "normalized" / "hotel")
+    os.mkdir(corpus_folder / "normalized" / "restaurant")
+
+    def preprocess_file(input_train_path, output_train_path):
+        sentences = open(input_train_path).read().strip().split("\n\n")
+        output_sentences = []
+        for s in sentences:
+            parts = s.split("\n")
+            text = parts[1]
+            labels = parts[2]
+            labels = re.findall("{.*?}", labels)
+            labels = [label[1:-1] for label in labels]
+            labels = [label.split(",") for label in labels]
+            labels = [f"__label__{aspect}_{sentiment.strip()}" for aspect, sentiment in labels]
+            labels = " ".join(labels)
+            output_sentence = f"{labels} {text}"
+            output_sentences.append(output_sentence)
+
+        with open(output_train_path, "w") as f:
+            content = "\n".join(output_sentences)
+            f.write(content + "\n")
+
+
+    def preprocess_corpus(data_folder):
+        if data_folder == "hotel":
+            input_train_path = corpus_folder / "raw" / data_folder / "1-VLSP2018-SA-hotel-train (7-3-2018).txt"
+            output_train_path = corpus_folder / "normalized" / data_folder / "train.txt"
+            preprocess_file(input_train_path, output_train_path)
+
+            input_dev_path = corpus_folder / "raw" / data_folder / "2-VLSP2018-SA-hotel-dev (7-3-2018).txt"
+            output_dev_path = corpus_folder / "normalized" / data_folder / "dev.txt"
+            preprocess_file(input_dev_path, output_dev_path)
+
+            input_dev_path = corpus_folder / "raw" / data_folder / "3-VLSP2018-SA-Hotel-test-eval-gold-data (8-3-2018).txt"
+            output_dev_path = corpus_folder / "normalized" / data_folder / "test.txt"
+            preprocess_file(input_dev_path, output_dev_path)
+
+        if data_folder == "restaurant":
+            input_train_path = corpus_folder / "raw" / data_folder / "1-VLSP2018-SA-Restaurant-train (7-3-2018).txt"
+            output_train_path = corpus_folder / "normalized" / data_folder / "train.txt"
+            preprocess_file(input_train_path, output_train_path)
+
+            input_dev_path = corpus_folder / "raw" / data_folder / "2-VLSP2018-SA-Restaurant-dev (7-3-2018).txt"
+            output_dev_path = corpus_folder / "normalized" / data_folder / "dev.txt"
+            preprocess_file(input_dev_path, output_dev_path)
+
+            input_dev_path = corpus_folder / "raw" / data_folder / "3-VLSP2018-SA-Restaurant-test-eval-gold-data (8-3-2018).txt"
+            output_dev_path = corpus_folder / "normalized" / data_folder / "test.txt"
+            preprocess_file(input_dev_path, output_dev_path)
+
+    preprocess_corpus("hotel")
+    preprocess_corpus("restaurant")
+
+
 class Dataset(Enum):
     AIVIVN2019_SA = "AIVIVN2019_SA"
     VLSP2016_SA = "VLSP2016_SA"
+    VLSP2018_SA = "VLSP2018_SA"
 
 
 CACHE_ROOT = Path("tmp")
@@ -117,6 +178,9 @@ def main(dataset, raw_data_folder, normalized_data_folder):
 
     if dataset == Dataset.VLSP2016_SA:
         preprocess_vlsp2016_sa(raw_data_folder, normalized_data_folder)
+
+    if dataset == Dataset.VLSP2018_SA:
+        preprocess_vlsp2018_sa()
 
     if dataset == Dataset.AIVIVN2019_SA:
         preprocess_aivivn2019_sa()
