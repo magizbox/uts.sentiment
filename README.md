@@ -8,9 +8,9 @@ Dự án nghiên cứu về bài toán *nhận diện cảm xúc tiếng Việt*
 
 **Nhóm tác giả** 
 
-* Vu Anh <<anhv.ict91@gmail.com>>
-* Pham Hong Quang <<quangphampm@gmail.com>>
-* Pham Thi Anh Suong <<phamsuong1551997@gmail.com>>
+* Vũ Anh <<anhv.ict91@gmail.com>>
+* Phạm Hồng Quang <<quangphampm@gmail.com>>
+* Phạm Thị Ánh Sương  <<phamsuong1551997@gmail.com>>
 
 [Danh sách những người đóng góp](AUTHORS.md) 
 
