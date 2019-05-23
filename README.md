@@ -8,12 +8,6 @@ Dự án nghiên cứu về bài toán *nhận diện cảm xúc tiếng Việt*
 
 ## Kết quả thử nghiệm 
 
-Xem thêm về [*mô tả vlsp 2018 SA task*](http://vlsp.org.vn/vlsp2018/eval/sa)
-
-Kết quả các thử nghiệm
-
-**Dữ liệu restaurant**
-
 | Dữ liệu          | Mô hình                                                                        | F1 %     |
 |-----------------|---------------------------------------------------------------------------------|----------|
 | VLSP2018_SA_RES | XGBoost(n_iter=500, max_depth=500) + Countvectorizer(bigram, max_features=4000) | 65.55    |
