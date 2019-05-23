@@ -34,10 +34,9 @@ $ conda create -n sentiment python=3.6
 $ pip install -r requirements.txt 
 ```
 
-
 ### Huấn luyện mô hình sentiment analysis cho dữ liệu VLSP2016_SA
 
-**Chú ý: Xem [hướng dẫn import dữ liệu](docs/DATA.md) trước khi huấn luyện mô hình**  
+**Chú ý: Xem [hướng dẫn import dữ liệu](docs/TUTORIAL_1_IMPORT_DATA.md) trước khi huấn luyện mô hình**  
 
 ```
 $ cd sentiment
@@ -68,6 +67,11 @@ Text: Pin yếu quá
 Labels: ['NEG']
 ```
 
+## Hướng dẫn sử dụng chi tiết 
+
+* [Hướng dẫn 1: Import dữ liệu vào hệ thống](docs/TUTORIAL_1_IMPORT_DATA.md)
+* [Hướng dẫn 2: Cách huấn luyện mô hình](docs/TUTORIAL_2_TRAINING_MODELS.md)
+* [Hướng dẫn 3: Các tối ưu mô hình](docs/TUTORIAL_3_OPTIMIZE_MODELS.md)
 
 ## Trích dẫn undertheseanlp@sentiment
 
