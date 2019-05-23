@@ -7,7 +7,7 @@ Bộ dữ liệu VLSP2016_SA có thể được import với công cụ langauge
 Cài đặt languageflow
 
 ```
-pip install languageflow==1.1.13a0 
+$ pip install languageflow==1.1.13a0 
 ```
 
 Gửi yêu cầu dữ liệu đến nhóm tác giả của dữ liệu VLSP2016_SA, sau khi nhận được dữ liệu, hãy chắc chắn cấu trúc thư mục của dữ liệu như sau 
@@ -30,7 +30,7 @@ vlsp2016_sa_raw/
 Import dữ liệu vào languageflow
 
 ```
-languageflow import vlsp2016_sa_raw 
+$ languageflow import vlsp2016_sa_raw 
 ```
 
 Kiểm tra dữ liệu
