@@ -6,61 +6,6 @@
 
 Dự án nghiên cứu về bài toán *nhận diện cảm xúc tiếng Việt*, được phát triển bởi nhóm nghiên cứu xử lý ngôn ngữ tự nhiên tiếng Việt - [underthesea](https://github.com/undertheseanlp). Chứa mã nguồn các thử nghiệm cho việc xử lý dữ liệu, huấn luyện và đánh giá mô hình, cũng như cho phép dễ dàng tùy chỉnh mô hình đối với những tập dữ liệu mới.
 
-**Nhóm tác giả** 
-
-* Vũ Anh <<anhv.ict91@gmail.com>>
-* Phạm Hồng Quang <<quangphampm@gmail.com>>
-* Phạm Thị Ánh Sương  <<phamsuong1551997@gmail.com>>
-
-[Danh sách những người đóng góp](AUTHORS.md) 
-
-**Tham gia đóng góp**
-
- Mọi ý kiến đóng góp hoặc yêu cầu trợ giúp xin gửi vào mục [Issues](../../issues) của dự án. Các thảo luận được khuyến khích **sử dụng tiếng Việt** để dễ dàng trong quá trình trao đổi. 
- 
-Nếu bạn có kinh nghiệm trong bài toán này, muốn tham gia vào nhóm phát triển với vai trò là [Developer](https://github.com/undertheseanlp/underthesea/wiki/H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-%C4%91%C3%B3ng-g%C3%B3p#developercontributor), xin hãy đọc kỹ [Hướng dẫn tham gia đóng góp](https://github.com/undertheseanlp/underthesea/wiki/H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-%C4%91%C3%B3ng-g%C3%B3p#developercontributor).
-
-
-## Mục lục
-
-* [Yêu cầu hệ thống](#yêu-cầu-hệ-thống)
-* [Thiết lập môi trường](#thiết-lập-môi-trường)
-* [Hướng dẫn sử dụng](#hướng-dẫn-sử-dụng)
-* [Kết quả thử nghiệm](#kết-quả-thử-nghiệm)
-* [Trích dẫn](#trích-dẫn)
-
-
-
-## Yêu cầu hệ thống 
-
-* `Hệ điều hành: Linux (Ubuntu, CentOS), Mac`
-* `Python 3.6+`
-
-## Thiết lập môi trường
-
-Tải project bằng cách sử dụng lệnh `git clone`
-
-```
-$ git clone https://github.com/undertheseanlp/sentiment.git
-```
-
-Tạo môi trường mới và cài đặt các gói liên quan
-
-```
-$ cd sentiment
-$ conda create -n sentiment python=3.6
-$ pip install -r requirements.txt
-```
-
-## Hướng dẫn sử dụng
-
-Trước khi chạy các thử nghiệm, hãy chắc chắn bạn đã activate môi trường `sentiment`, mọi câu lệnh đều được chạy trong thư mục gốc của dự án.
-
-```
-$ cd sentiment
-$ source activate sentiment
-```
-
 ## Kết quả thử nghiệm 
 
 Xem thêm về [*mô tả vlsp 2018 SA task*](http://vlsp.org.vn/vlsp2018/eval/sa)
@@ -99,26 +44,43 @@ Kết quả các thử nghiệm
 | LogisticRegression + Countvectorizer(Trigram, max_features=5000)                | 65.70    |
 | SVC + Countvectorizer(Trigram, Max Feature=700)                                 | 29.60    |
 
-## Cài đặt sacred
 
-Cài đặt `sacred` python package
+## Hướng dẫn sử dụng nhanh
 
-```
-pip install sacred 
-```
+**Yêu cầu hệ thống**
 
-Cài đặt database
+* `Hệ điều hành: Linux (Ubuntu, CentOS), Mac`
+* `Python 3.6+`
 
-```
-sudo apt get install docker.io
-sudo docker run -p 27017:27017 mongo
-```
-
-Cài đặt omniboard 
+**Cài đặt** 
 
 ```
-sudo npm install -g omniboard
-omniboard
+# Tải project bằng cách sử dụng lệnh `git clone`
+$ git clone https://github.com/undertheseanlp/sentiment.git
+
+# Tạo môi trường mới và cài đặt các gói liên quan
+$ cd sentiment
+$ conda create -n sentiment python=3.6
+$ pip install -r requirements.txt 
 ```
 
-Sau đó vào địa chỉ [http://localhost:9000](http://localhost:9000) để xem kết quả các thử nghiệm 
+
+**Huấn luyện mô hình sentiment analysis cho dữ liệu VLSP2016_SA**
+
+```
+$ cd sentiment
+$ source activate sentiment
+
+```
+
+## Trích dẫn undertheseanlp@sentiment
+
+```
+@online{undertheseanlp/sentiment,
+author ={Vu Anh, Pham Hong Quang, Pham Thi Anh Suong},
+year = {2019},
+title ={Phân loại văn bản tiếng Việt},
+url ={https://github.com/undertheseanlp/classification}
+}
+```
+
