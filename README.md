@@ -8,12 +8,12 @@ Dự án nghiên cứu về bài toán *nhận diện cảm xúc tiếng Việt*
 
 ## Kết quả thử nghiệm 
 
-| Dữ liệu          | Mô hình                                                                        | F1 %     |
-|-----------------|---------------------------------------------------------------------------------|----------|
-| VLSP2018_SA_RES | XGBoost(n_iter=500, max_depth=500) + Countvectorizer(bigram, max_features=4000) | 65.55    |
-| VLSP2016_SA_HOT | XGBoost(n_iter=100, max_depth=200) + Countvectorizer(bigram, max_features=2000) | 65.79    |
-| UTS2017_BANK    | LinearSVC + Tfidfvectorizer(Bigram)                                             | 69.60    |
-| VLSP2016_SA     | SVM + TfidfVectorizer                                                           | 70.02    |
+| Dữ liệu          | Mô hình                                             | F1 %     |
+|-----------------|------------------------------------------------------|----------|
+| VLSP2018_SA_RES | XGBoost + Countvectorizer(bigram, max_features=4000) | 65.55    |
+| VLSP2016_SA_HOT | XGBoost + Countvectorizer(bigram, max_features=2000) | 65.79    |
+| UTS2017_BANK    | LinearSVC + Tfidfvectorizer(Bigram)                  | 69.60    |
+| VLSP2016_SA     | SVM + TfidfVectorizer                                | 70.02    |
 
 ## Hướng dẫn sử dụng nhanh
 
