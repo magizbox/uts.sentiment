@@ -35,7 +35,6 @@ Nếu bạn có kinh nghiệm trong bài toán này, muốn tham gia vào nhóm 
 
 * `Hệ điều hành: Linux (Ubuntu, CentOS), Mac`
 * `Python 3.6+`
-* `conda 4+`
 
 ## Thiết lập môi trường
 
