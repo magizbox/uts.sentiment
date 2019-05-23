@@ -50,7 +50,7 @@ Kết quả các thử nghiệm
 **Yêu cầu hệ thống**
 
 * `Hệ điều hành: Linux (Ubuntu, CentOS), Mac`
-* `Python 3.6+`
+* `Python 3.6+`, `conda`
 
 **Cài đặt** 
 
@@ -65,13 +65,39 @@ $ pip install -r requirements.txt
 ```
 
 
-**Huấn luyện mô hình sentiment analysis cho dữ liệu VLSP2016_SA**
+### Huấn luyện mô hình sentiment analysis cho dữ liệu VLSP2016_SA**
+
+Chú ý: Hãy xem [hướng dẫn import dữ liệu](docs/DATA.md) trước khi huấn luyện mô hình  
 
 ```
 $ cd sentiment
 $ source activate sentiment
 
+# Sử dụng mô hình để predict 
+python vlsp2016_predict.py
 ```
+
+Huấn luyện mô hình
+
+```
+$ python vlsp2016_train.py
+```
+ 
+Sử dụng mô hình đã huấn luyện để dự đoán 
+
+```
+$ python vlsp2016_predict.py
+
+Load model from tmp/sentiment_svm_vlsp2016
+Model is loaded.
+
+Text: Sản phẩm rất tốt
+Labels: ['POS']
+
+Text: Pin yếu quá
+Labels: ['NEG']
+```
+
 
 ## Trích dẫn undertheseanlp@sentiment
 
