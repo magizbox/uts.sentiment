@@ -37,7 +37,7 @@ $ pip install -r requirements.txt
 
 ### Huấn luyện mô hình sentiment analysis cho dữ liệu VLSP2016_SA
 
-Chú ý: Hãy xem [hướng dẫn import dữ liệu](docs/DATA.md) trước khi huấn luyện mô hình  
+**Chú ý: Xem [hướng dẫn import dữ liệu](docs/DATA.md) trước khi huấn luyện mô hình**  
 
 ```
 $ cd sentiment
