@@ -67,7 +67,7 @@ Text: Pin yếu quá
 Labels: ['NEG']
 ```
 
-### Hướng dẫn sử dụng chi tiết 
+## Hướng dẫn sử dụng chi tiết 
 
 * [Hướng dẫn 1: Import dữ liệu vào hệ thống](docs/TUTORIAL_1_IMPORT_DATA.md)
 * [Hướng dẫn 2: Cách huấn luyện mô hình](docs/TUTORIAL_2_TRAINING_MODELS.md)
