@@ -31,25 +31,6 @@ positive_emoticons = {'=))', 'v', ';)', '^^', '<3', '☀', '☺', '♡', '♥', 
                       ':]', ':3', ':c)', ':>', '=]', '8)'}
 
 
-class Lowercase(BaseEstimator, TransformerMixin):
-    def transform(self, x):
-        return [s.lower() for s in x]
-
-    def fit(self, x, y=None):
-        return self
-
-
-class RemoveTone(BaseEstimator, TransformerMixin):
-    def remove_tone(self, s):
-        return unidecode.unidecode(s)
-
-    def transform(self, x):
-        return [self.remove_tone(s) for s in x]
-
-    def fit(self, x, y=None):
-        return self
-
-
 class CountEmoticons(BaseEstimator, TransformerMixin):
     def count_emoticon(self, s):
         positive_count = 0
