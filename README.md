@@ -14,36 +14,12 @@ Kết quả các thử nghiệm
 
 **Dữ liệu restaurant**
 
-| Mô hình                                                                         | F1 %     |
-|---------------------------------------------------------------------------------|----------|
-| XGBoost(n_iter=500, max_depth=500) + Countvectorizer(bigram, max_features=4000) | **65.55** |
-| LogisticRegression + Countvectorizer(Bigram)                                    | 64.59     |
-| LinearSVC + Countvectorizer(Trigram)                                            | 64.49     |
-| LinearSVC + Countvectorizer(Bigram)                                             | 64.24     |
-| MultinomialNB + Countvectorizer(Trigram)                                        | 53.66     |
-| SVC + Countvectorizer(Trigram)                                                  | 48.55     |
-
-**Dữ liệu hotel**
-
-| Mô hình                                                                         | F1 %      |
-|---------------------------------------------------------------------------------|-----------|
-| XGBoost(n_iter=100, max_depth=200) + Countvectorizer(bigram, max_features=2000) | **65.79** |
-| LinearSVC + Countvectorizer(Trigram)                                            | 65.09     |
-| LinearSVC + Countvectorizer(Bigram)                                             | 64.95     |
-| LogisticRegression + Countvectorizer(Bigram)                                    | 64.82     |
-| MultinomialNB + Countvectorizer(Bigram)                                         | 54.79     |
-| SVC + Countvectorizer(Trigram)                                                  | 48.55     |
-
-**Dữ liệu fb_bank**
-
-| Mô hình                                                                         | F1 %     |
-|---------------------------------------------------------------------------------|----------|
-| LinearSVC + Tfidfvectorizer(Bigram)                                             | **69.60**|
-| MultinomialNB + Countvectorizer (Bigram, Max Feature=1000)                      | 68.40    |
-| XGBoost(n_iter=100, max_depth=300) + Countvectorizer(bigram, max_features=2000) | 65.70    |
-| LogisticRegression + Countvectorizer(Trigram, max_features=5000)                | 65.70    |
-| SVC + Countvectorizer(Trigram, Max Feature=700)                                 | 29.60    |
-
+| Dữ liệu          | Mô hình                                                                        | F1 %     |
+|-----------------|---------------------------------------------------------------------------------|----------|
+| VLSP2018_SA_RES | XGBoost(n_iter=500, max_depth=500) + Countvectorizer(bigram, max_features=4000) | 65.55    |
+| VLSP2016_SA_HOT | XGBoost(n_iter=100, max_depth=200) + Countvectorizer(bigram, max_features=2000) | 65.79    |
+| UTS2017_BANK    | LinearSVC + Tfidfvectorizer(Bigram)                                             | 69.60    |
+| VLSP2016_SA     | SVM + TfidfVectorizer                                                           | 70.02    |
 
 ## Hướng dẫn sử dụng nhanh
 
@@ -65,7 +41,7 @@ $ pip install -r requirements.txt
 ```
 
 
-### Huấn luyện mô hình sentiment analysis cho dữ liệu VLSP2016_SA**
+### Huấn luyện mô hình sentiment analysis cho dữ liệu VLSP2016_SA
 
 Chú ý: Hãy xem [hướng dẫn import dữ liệu](docs/DATA.md) trước khi huấn luyện mô hình  
 
