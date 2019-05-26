@@ -1,80 +1,73 @@
-from tempfile import mkdtemp
+import os
+import shutil
 
-import joblib
-import unidecode
 from languageflow.data import CategorizedCorpus
 from languageflow.data_fetcher import DataFetcher, NLPData
 from languageflow.models.text_classifier import TextClassifier, TEXT_CLASSIFIER_ESTIMATOR
 from languageflow.trainers.model_trainer import ModelTrainer
-from sacred import Experiment
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import f1_score
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.svm import SVC
-from sacred.observers import MongoObserver
+from time import time
 
-ex = Experiment('aivivn')
+from text_features import Lowercase, RemoveTone, CountEmoticons, Tokenrize, RemoveDuplicate
 
-ex.observers.append(MongoObserver.create())
+start = time()
+
+model_folder = "tmp/sentiment_svm_aivivn2019"
+try:
+    shutil.rmtree(model_folder)
+except:
+    pass
+finally:
+    os.makedirs(model_folder)
+
+# 0.16, (1, 2), (1, 5), (1, 2)
+# 0.275, (1, 4), (1, 6), (1, 4)
+
+estimator_C = 0.16
+lower_tfidf__ngram_range = (1, 2)
+with_tone_char__ngram_range = (1, 5)
+remove_tone__tfidf__ngram_range = (1, 2)
+
+print(">>> Train AIVIVN2019 Sentiment Analysis")
+corpus: CategorizedCorpus = DataFetcher.load_corpus(NLPData.AIVIVN2019_SA)
+print("\n\n>>> Sample sentences")
+for s in corpus.train[:10]:
+    print(s)
+
+pipeline = Pipeline(
+    steps=[
+        ('features', FeatureUnion([
+            ('lower_tfidf', Pipeline([
+                ('token', Tokenrize()),
+                ('lower', Lowercase()),
+                ('remove_duplicate', RemoveDuplicate()),
+                ('tfidf', TfidfVectorizer(ngram_range=lower_tfidf__ngram_range, norm='l2', min_df=2))])),
+            ('with_tone_char',
+             TfidfVectorizer(ngram_range=with_tone_char__ngram_range, norm='l2', min_df=2, analyzer='char')),
+            ('remove_tone', Pipeline([
+                ('remove_tone', RemoveTone()),
+                ('lower', Lowercase()),
+                ('tfidf', TfidfVectorizer(ngram_range=remove_tone__tfidf__ngram_range, norm='l2', min_df=2))])),
+            ('emoticons', CountEmoticons())
+        ])),
+        ('estimator', SVC(kernel='linear', C=estimator_C, class_weight=None, verbose=True))
+    ]
+)
+
+print("\n\n>>> Start training")
+classifier = TextClassifier(estimator=TEXT_CLASSIFIER_ESTIMATOR.PIPELINE, pipeline=pipeline)
+model_trainer = ModelTrainer(classifier, corpus)
 
 
-@ex.config
-def config():
-    estimator = 'svc'
-    features = 'tfidf_lower_char'
-    tfidf_ngram_range = (1, 4)
+def macro_f1_score(y_true, y_pred):
+    return f1_score(y_true, y_pred, average='macro')
 
 
-class Lowercase(BaseEstimator, TransformerMixin):
-    def transform(self, x):
-        return [s.lower() for s in x]
-
-    def fit(self, x, y=None):
-        return self
-
-
-class RemoveTone(BaseEstimator, TransformerMixin):
-    def remove_tone(self, s):
-        return unidecode.unidecode(s)
-
-    def transform(self, x):
-        return [self.remove_tone(s) for s in x]
-
-    def fit(self, x, y=None):
-        return self
-
-
-@ex.automain
-def run(estimator, features):
-    corpus: CategorizedCorpus = DataFetcher.load_corpus(NLPData.AIVIVN2019_SA)
-    pipeline = Pipeline(
-        steps=[
-            ('features', FeatureUnion([
-                ('lower_tfidf', Pipeline([
-                    ('lower', Lowercase()),
-                    ('tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))])),
-                ('with_tone_char', TfidfVectorizer(ngram_range=(1, 6), norm='l2', min_df=2, analyzer='char')),
-                ('remove_tone', Pipeline([
-                    ('remove_tone', RemoveTone()),
-                    ('lower', Lowercase()),
-                    ('tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))]))
-            ])),
-            ('estimator', SVC(kernel='linear', C=0.2175, class_weight=None, verbose=True))
-        ]
-    )
-    classifier = TextClassifier(estimator=TEXT_CLASSIFIER_ESTIMATOR.PIPELINE, pipeline=pipeline)
-    model_trainer = ModelTrainer(classifier, corpus)
-    tmp_model_folder = mkdtemp()
-
-    def negative_f1_score(y_true, y_pred):
-        score_class_0, score_class_1 = f1_score(y_true, y_pred, average=None)
-        return score_class_1
-
-    def macro_f1_score(y_true, y_pred):
-        return f1_score(y_true, y_pred, average='macro')
-
-    score = model_trainer.train(tmp_model_folder, scoring=negative_f1_score)
-    ex.log_scalar('dev_score', score['dev_score'])
-    ex.log_scalar('test_score', score['test_score'])
-    return score['test_score']
+model_trainer.train(model_folder, scoring=macro_f1_score)
+print("\n\n>>> Finish training")
+print(f"Your model is saved in {model_folder}")
+print(f"Running in {time() - start}")
