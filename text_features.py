@@ -1,5 +1,9 @@
 import unidecode
 from sklearn.base import BaseEstimator, TransformerMixin
+import string
+import re
+from underthesea.word_tokenize.regex_tokenize import tokenize
+
 
 negative_emoticons = {':(', '☹', '❌', '👎', '👹', '💀', '🔥', '🤔', '😏', '😐', '😑', '😒', '😓', '😔', '😕', '😖',
                       '😞', '😟', '😠', '😡', '😢', '😣', '😤', '😥', '😧', '😨', '😩', '😪', '😫', '😭', '😰', '😱',
@@ -43,6 +47,38 @@ class CountEmoticons(BaseEstimator, TransformerMixin):
 
     def transform(self, x):
         return [self.count_emoticon(s) for s in x]
+
+    def fit(self, x, y=None):
+        return self
+
+
+class RemoveDuplicate(BaseEstimator, TransformerMixin):
+    def transform(self, x):
+        result = []
+        for s in x:
+            s = re.sub(r'([a-z])\1+', lambda m: m.group(1), s, flags=re.IGNORECASE)
+            s = re.sub(r'([a-z][a-z])\1+', lambda m: m.group(1), s, flags=re.IGNORECASE)
+            result.append(s)
+        return result
+
+    def fit(self,x, y=None):
+        return self
+
+
+class Tokenrize(BaseEstimator, TransformerMixin):
+    def pun_num(self, s):
+        for token in s.split():
+            if token in string.punctuation:
+                if token == '.':
+                    s = s
+                else:
+                    s = s.replace(token, 'punc')
+            else:
+                s = s
+        return s
+
+    def transform(self, x):
+        return [self.pun_num(tokenize(s, format='text')) for s in x]
 
     def fit(self, x, y=None):
         return self
