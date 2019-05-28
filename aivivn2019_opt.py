@@ -19,7 +19,7 @@ from sklearn.svm import SVC
 from text_features import Lowercase, RemoveTone, CountEmoticons, RemoveDuplicate, Tokenrize
 
 
-ex = Experiment('with_emoticons_full')
+ex = Experiment('AIVIVN2019 Experiment')
 ex.observers.append(MongoObserver.create())
 
 
