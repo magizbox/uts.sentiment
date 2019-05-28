@@ -1,51 +1,26 @@
 from tempfile import mkdtemp
-
-import joblib
-import time
-import unidecode
 from hyperopt import Trials, fmin, hp, tpe
+import time
+
 from languageflow.data import CategorizedCorpus
 from languageflow.data_fetcher import DataFetcher, NLPData
 from languageflow.models.text_classifier import TextClassifier, TEXT_CLASSIFIER_ESTIMATOR
 from languageflow.trainers.model_trainer import ModelTrainer
+
 from sacred import Experiment
 from sacred.optional import np
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sacred.observers import MongoObserver
+
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import f1_score
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.svm import SVC
-from sacred.observers import MongoObserver
+
+from text_features import Lowercase, RemoveTone, CountEmoticons, RemoveDuplicate, Tokenrize
+
 
 ex = Experiment('with_emoticons_full')
 ex.observers.append(MongoObserver.create())
-
-negative_emoticons = {':(', '☹', '❌', '👎', '👹', '💀', '🔥', '🤔', '😏', '😐', '😑', '😒', '😓', '😔', '😕', '😖',
-                      '😞', '😟', '😠', '😡', '😢', '😣', '😤', '😥', '😧', '😨', '😩', '😪', '😫', '😭', '😰', '😱',
-                      '😳', '😵', '😶', '😾', '🙁', '🙏', '🚫', '>:[', ':-(', ':(', ':-c', ':c', ':-<', ':っC', ':<',
-                      ':-[', ':[', ':{'}
-
-positive_emoticons = {'=))', 'v', ';)', '^^', '<3', '☀', '☺', '♡', '♥', '✌', '✨', '❣', '❤', '🌝', '🌷', '🌸',
-                      '🌺', '🌼', '🍓', '🎈', '🐅', '🐶', '🐾', '👉', '👌', '👍', '👏', '👻', '💃', '💄', '💋',
-                      '💌', '💎', '💐', '💓', '💕', '💖', '💗', '💙', '💚', '💛', '💜', '💞', ':-)', ':)', ':D', ':o)',
-                      ':]', ':3', ':c)', ':>', '=]', '8)'}
-
-
-class CountEmoticons(BaseEstimator, TransformerMixin):
-    def count_emoticon(self, s):
-        positive_count = 0
-        negative_count = 0
-        for emoticon in positive_emoticons:
-            positive_count += s.count(emoticon)
-        for emoticon in negative_emoticons:
-            negative_count += s.count(emoticon)
-        return positive_count, negative_count
-
-    def transform(self, x):
-        return [self.count_emoticon(s) for s in x]
-
-    def fit(self, x, y=None):
-        return self
 
 
 @ex.main
@@ -61,7 +36,9 @@ def my_run(estimator__C,
         steps=[
             ('features', FeatureUnion([
                 ('lower_pipe', Pipeline([
+                    ('token', Tokenrize()),
                     ('lower', Lowercase()),
+                    ('remove_duplicate', RemoveDuplicate()),
                     ('tfidf', TfidfVectorizer(ngram_range=(1, 4), norm='l2', min_df=2))])),
                 ('with_tone_char', TfidfVectorizer(ngram_range=(1, 6), norm='l2', min_df=2, analyzer='char')),
                 ('remove_tone', Pipeline([

@@ -9,7 +9,6 @@ print(f"Model is loaded.")
 
 def predict(text):
     print(f"\nText: {text}")
-
     sentence = Sentence(text)
     classifier.predict(sentence)
     labels = sentence.labels
