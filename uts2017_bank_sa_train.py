@@ -1,3 +1,4 @@
+from time import time
 import os
 import shutil
 
@@ -12,19 +13,21 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.svm import SVC
 
-from text_features import Lowercase, RemoveTone, CountEmoticons
+from text_features import Lowercase, RemoveTone, CountEmoticons, RemoveDuplicate, Tokenrize
 
-model_folder = "tmp/uts2017_bank_sa"
+start = time()
+
+model_folder = "tmp/sentiment_svm_uts2017_bank_sa"
 try:
     shutil.rmtree(model_folder)
 except:
     pass
 finally:
     os.makedirs(model_folder)
-estimator_C = 0.375
-lower_tfidf__ngram_range = (1, 3)
+estimator_C = 0.72
+lower_tfidf__ngram_range = (1, 4)
 with_tone_char__ngram_range = (1, 5)
-remove_tone__tfidf__ngram_range = (1, 2)
+remove_tone__tfidf__ngram_range = (1, 3)
 
 print(">>> Train UTS2017_BANK_SA")
 corpus: CategorizedCorpus = DataFetcher.load_corpus(NLPData.UTS2017_BANK_SA)
@@ -35,7 +38,9 @@ pipeline = Pipeline(
     steps=[
         ('features', FeatureUnion([
             ('lower_tfidf', Pipeline([
+                ('token', Tokenrize()),
                 ('lower', Lowercase()),
+                ('remove_duplicate', RemoveDuplicate()),
                 ('tfidf', TfidfVectorizer(ngram_range=lower_tfidf__ngram_range, norm='l2', min_df=2))])),
             ('with_tone_char',
              TfidfVectorizer(ngram_range=with_tone_char__ngram_range, norm='l2', min_df=2, analyzer='char')),
@@ -61,3 +66,4 @@ def micro_f1_score(y_true, y_pred):
 model_trainer.train(model_folder, scoring=micro_f1_score)
 print("\n\n>>> Finish training")
 print(f"Your model is saved in {model_folder}")
+print(f"Running in {time() - start}")
