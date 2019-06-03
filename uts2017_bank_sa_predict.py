@@ -2,7 +2,7 @@ from languageflow.data import Sentence
 from languageflow.data_fetcher import NLPData, DataFetcher
 from languageflow.models.text_classifier import TextClassifier
 
-model_folder = "tmp/uts2017_bank_sa"
+model_folder = "tmp/sentiment_svm_uts2017_bank_sa"
 print(f"Load model from {model_folder}")
 classifier = TextClassifier.load(model_folder)
 print(f"Model is loaded.")
