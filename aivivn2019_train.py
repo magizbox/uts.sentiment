@@ -24,9 +24,6 @@ except:
 finally:
     os.makedirs(model_folder)
 
-# 0.16, (1, 2), (1, 5), (1, 2)
-# 0.275, (1, 4), (1, 6), (1, 4)
-
 estimator_C = 0.16
 lower_tfidf__ngram_range = (1, 2)
 with_tone_char__ngram_range = (1, 5)
