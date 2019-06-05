@@ -14,17 +14,18 @@ from sklearn.svm import SVC
 
 from text_features import Lowercase, RemoveTone, CountEmoticons
 
-model_folder = "tmp/uts2017_bank_sa"
+model_folder = "tmp/sentiment_svm_uts2017_bank_sa"
 try:
     shutil.rmtree(model_folder)
 except:
     pass
 finally:
     os.makedirs(model_folder)
-estimator_C = 0.375
-lower_tfidf__ngram_range = (1, 3)
+
+estimator_C = 0.72
+lower_tfidf__ngram_range = (1, 4)
 with_tone_char__ngram_range = (1, 5)
-remove_tone__tfidf__ngram_range = (1, 2)
+remove_tone__tfidf__ngram_range = (1, 3)
 
 print(">>> Train UTS2017_BANK_SA")
 corpus: CategorizedCorpus = DataFetcher.load_corpus(NLPData.UTS2017_BANK_SA)
